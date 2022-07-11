@@ -1,19 +1,14 @@
-#ifndef SFMLDOTS_DOTSMENUWINDOWEVENTRECEIVER_HPP
-#define SFMLDOTS_DOTSMENUWINDOWEVENTRECEIVER_HPP
-
-#include <imgui.h>
-#include <imgui-SFML.h>
-
-#include "source/ui/view/receivers/WindowEventReceiver.hpp"
-#include "DotsData_t.hpp"
+#ifndef SFMLDOTS_SQUIGGLESMENUWINDOWEVENTRECEIVER_HPP
+#define SFMLDOTS_SQUIGGLESMENUWINDOWEVENTRECEIVER_HPP
 
 namespace rj
 {
-  class DotsMenuWindowEventReceiver : public WindowEventReceiver
+  class SquigglesMenuWindowEventReceiver : public WindowEventReceiver
   {
   public:
-    explicit DotsMenuWindowEventReceiver( DotsData_t & data )
-      : m_data( data )
+
+    explicit SquigglesMenuWindowEventReceiver( SquigglesData_t & data )
+    : m_data( data )
     {}
 
     void onInit( sf::RenderWindow &window ) override
@@ -47,7 +42,7 @@ namespace rj
     void drawMenu()
     {
       ImGui::Begin(
-      "Dots Menu",
+      "Squiggles Menu",
       nullptr,
       ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove );
       {
@@ -89,9 +84,9 @@ namespace rj
 
   private:
 
-    DotsData_t& m_data;
+    SquigglesData_t &m_data;
 
   };
 }
 
-#endif
+#endif //SFMLDOTS_SQUIGGLESMENUWINDOWEVENTRECEIVER_HPP

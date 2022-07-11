@@ -7,7 +7,8 @@
 #include "pluginterfaces/vst/ivstevents.h"
 #include "pluginterfaces/vst/ivstmessage.h"
 
-#include "source/ui/view/receivers/IWindowEventReceiver.hpp"
+#include "source/ui/view/receivers/WindowEventReceiver.hpp"
+
 #include "source/ui/view/viz/dots/DotsData_t.hpp"
 #include "source/ui/view/viz/dots/TimedDot_t.hpp"
 
@@ -19,7 +20,7 @@
 namespace rj
 {
 
-  class DotsWindowEventReceiver : public IWindowEventReceiver
+  class DotsWindowEventReceiver : public WindowEventReceiver
   {
   public:
 
@@ -27,23 +28,11 @@ namespace rj
       : m_data( data )
     {}
 
-    void onInit( sf::RenderWindow &window ) override {}
-
-    void onShutdown( sf::RenderWindow &window ) override {}
-
-    void beginEventProcessing() override {}
-    void endEventProcessing() override {}
-
-    void processEvent( sf::RenderWindow &window, const sf::Event &event ) override
+    void update( sf::RenderWindow &window, const sf::Time &time ) override
     {}
 
-    void update( sf::RenderWindow &window, const sf::Time &time ) override
-    {
-    }
-
     void draw( sf::RenderWindow &window ) override
-    {
-    }
+    {}
 
     /***
      * WARNING: occurs on different thread than the UI thread
@@ -57,9 +46,6 @@ namespace rj
 //           event.noteOn.length,
 //           event.noteOn.velocity,
 //           event.noteOn.tuning );
-
-
-
     }
 
     /***
@@ -82,21 +68,6 @@ namespace rj
         else
           POLY_WARN( "received empty message" );
       }
-    }
-
-    bool sendVstEvent( const Steinberg::Vst::Event &event, const std::string &eventTag ) override
-    {
-      return false;
-    }
-
-    void onKeyDown( Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers ) override
-    {
-
-    }
-
-    void onKeyUp( Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers ) override
-    {
-
     }
 
   private:
