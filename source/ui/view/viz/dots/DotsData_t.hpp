@@ -14,7 +14,7 @@ namespace rj
     sf::Color endColor { 32, 32, 32 };
     float radius { 15.f };
     int32_t timeoutInMS { 1500 };
-    sf::Vector2f center { 640.f, 360.f };
+    sf::Vector2f center;
     float spreadMultiplier { 1.f };
   };
 }

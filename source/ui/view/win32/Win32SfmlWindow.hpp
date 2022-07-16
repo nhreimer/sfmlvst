@@ -31,7 +31,7 @@ namespace rj
                      IWindowEventReceiver & driver,
                      sf::ContextSettings && settings );
 
-    ~Win32SfmlWindow();
+    ~Win32SfmlWindow() override;
 
     /***
      * shutdowns the window, destroying it
@@ -56,6 +56,13 @@ namespace rj
      * @return
      */
     sf::Vector2u getSize() const override;
+
+    /***
+     * An expected frame rate based on windows' timer, which only allows for
+     * 16ms rates
+     * @return the expected lowest frame rate possible on windows
+     */
+    float getFrameRate() const override;
 
   private:
 

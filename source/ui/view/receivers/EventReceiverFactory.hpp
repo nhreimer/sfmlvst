@@ -7,7 +7,7 @@
 #include "source/ui/view/viz/VisualizationEventDistributor.hpp"
 
 #include "source/ui/view/viz/dots/Dots.hpp"
-#include "source/ui/view/viz/squiggles/Squiggles.hpp"
+#include "source/ui/view/viz/triangles/Triangles.hpp"
 
 #include "source/log/PolyLogger.hpp"
 
@@ -17,10 +17,9 @@ namespace rj
                                          DotsWindowEventReceiver,
                                          DotsMenuWindowEventReceiver > DotsEventDistributor;
 
-  typedef VisualizationEventDistributor< SquigglesData_t,
-                                         SquigglesWindowEventReceiver,
-                                         SquigglesMenuWindowEventReceiver > SquigglesEventDistributor;
-
+  typedef VisualizationEventDistributor< TrianglesData_t,
+                                         TrianglesWindowEventReceiver,
+                                         TrianglesMenuWindowEventReceiver > TrianglesEventDistributor;
 
   struct EventReceiverFactory
   {
@@ -28,15 +27,15 @@ namespace rj
     {
       DEFAULT,
       DOTS,
-      SQUIGGLES,
+      TRIANGLES,
     };
 
     static std::unique_ptr< IWindowEventReceiver > create( const E_EventDistribution eventDistribution )
     {
       switch ( eventDistribution )
       {
-        case SQUIGGLES:
-          return std::make_unique< SquigglesEventDistributor >();
+        case TRIANGLES:
+          return std::make_unique< TrianglesEventDistributor >();
         case DOTS:
         case DEFAULT:
         default:

@@ -22,6 +22,7 @@ namespace rj
 
     void onInit( sf::RenderWindow & window ) override
     {
+      m_isReset = false;
       m_ptrVisEventDistributor->onInit( window );
     }
 
@@ -48,6 +49,14 @@ namespace rj
 
     void update( sf::RenderWindow &window, const sf::Time &time ) override
     {
+      // if the visualization has changed then we need to reinitialize
+      if ( m_isReset )
+      {
+        POLY_DEBUG( "reinitializing" );
+        m_ptrVisEventDistributor->onInit( window );
+        m_isReset = false;
+      }
+
       m_ptrVisEventDistributor->update( window, time );
     }
 
@@ -93,12 +102,14 @@ namespace rj
           POLY_DEBUG( "switching to DOTS visualizations" );
           m_ptrVisEventDistributor.reset();
           m_ptrVisEventDistributor = EventReceiverFactory::create( EventReceiverFactory::DOTS );
+          m_isReset = true;
           break;
 
         case 50: // SQUIGGLES: 2 key
-          POLY_DEBUG( "switch to SQUIGGLES visualizations" );
+          POLY_DEBUG( "switch to TRIANGLES visualizations" );
           m_ptrVisEventDistributor.reset();
-          m_ptrVisEventDistributor = EventReceiverFactory::create( EventReceiverFactory::SQUIGGLES );
+          m_ptrVisEventDistributor = EventReceiverFactory::create( EventReceiverFactory::TRIANGLES );
+          m_isReset = true;
           break;
 
         default:
@@ -110,6 +121,7 @@ namespace rj
   private:
 
     std::unique_ptr< IWindowEventReceiver > m_ptrVisEventDistributor;
+    bool m_isReset { true };
 
   };
 }

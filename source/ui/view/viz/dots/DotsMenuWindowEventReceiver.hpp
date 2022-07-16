@@ -5,7 +5,10 @@
 #include <imgui-SFML.h>
 
 #include "source/ui/view/receivers/WindowEventReceiver.hpp"
-#include "DotsData_t.hpp"
+#include "source/ui/view/viz/dots/DotsData_t.hpp"
+
+#include "source/utils/TimeMeasurement.hpp"
+#include "source/utils/FpsMeasurement.hpp"
 
 namespace rj
 {
@@ -34,6 +37,7 @@ namespace rj
     void update( sf::RenderWindow &window, const sf::Time &time ) override
     {
       ImGui::SFML::Update( window, time );
+      m_fps.addFrame();
     }
 
     void draw( sf::RenderWindow &window ) override
@@ -67,7 +71,7 @@ namespace rj
         ImGui::Separator();
 
         int32_t timeoutInMS = m_data.timeoutInMS;
-        if ( ImGui::SliderInt( "Timeout##1", &timeoutInMS, 0, 10000 ) )
+        if ( ImGui::SliderInt( "Timeout##1", &timeoutInMS, 20, 10000 ) )
         {
           m_data.timeoutInMS = timeoutInMS;
         }
@@ -83,6 +87,9 @@ namespace rj
         {
           m_data.radius = radius;
         }
+
+        ImGui::Separator();
+        ImGui::Text( "FPS: %d. (%.2f)", m_fps.getFPS(), m_fps.getDelta() );
       }
       ImGui::End();
     }
@@ -90,7 +97,7 @@ namespace rj
   private:
 
     DotsData_t& m_data;
-
+    FpsMeasurement m_fps;
   };
 }
 

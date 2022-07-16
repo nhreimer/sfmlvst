@@ -29,6 +29,13 @@ namespace rj
     [[nodiscard]]
     virtual sf::Vector2u getSize() const = 0;
 
+    /***
+     * Provides the frame rate or expected frame for the window
+     * @return the frame rate in FPS
+     */
+    [[nodiscard]]
+    virtual float getFrameRate() const = 0;
+
     virtual ~IChildWindow() = default;
   };
 }

@@ -19,6 +19,7 @@ namespace rj
     // Here the Plug-in will be instanciated
 
     rj::SLog::initializeLogger();
+    POLY_DEBUG( "initializing controller" );
 
     //---do not forget to call parent ------
     tresult result = EditControllerEx1::initialize( context );

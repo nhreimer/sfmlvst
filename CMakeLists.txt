@@ -43,6 +43,9 @@ smtg_add_vst3plugin( SfmlDots
   source/ui/view/VstPluginViewImpl.cpp
   source/ui/view/win32/Win32SfmlWindow.cpp
 
+  # VIZ
+  source/ui/view/viz/dots/DotsWindowEventReceiver.cpp
+
   # LOGGING
   source/log/PolyLogger.cpp
 )

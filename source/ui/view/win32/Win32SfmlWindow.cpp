@@ -6,6 +6,8 @@
 #include "source/log/PolyLogger.hpp"
 #include "source/ui/view/receivers/IWindowEventReceiver.hpp"
 
+static const float WIN32_FPS = 1000.f / 16.f;
+
 ////////////////////////////////////////////////////////////////////////////
 ///                             PUBLIC
 ////////////////////////////////////////////////////////////////////////////
@@ -36,6 +38,39 @@ rj::Win32SfmlWindow::~Win32SfmlWindow()
 {
   POLY_DEBUG( "destructor called. destroying window." );
   shutdown();
+}
+
+////////////////////////////////////////////////////////////////////////////
+/* PUBLIC */
+void rj::Win32SfmlWindow::shutdown()
+{
+  // notify the event receiver that the window will close
+  m_eventReceiver.onShutdown( m_childRenderWindow );
+
+  if ( m_wndCtx.childHwnd != nullptr )
+  {
+    // stop the callbacks
+    if ( m_wndCtx.timerResult != 0 )
+    {
+      ::KillTimer( m_wndCtx.childHwnd, m_wndCtx.timerResult );
+      m_wndCtx.timerResult = 0;
+    }
+
+    // SFML takes care of the following whenever it closes the window
+    //        ::UnregisterClass( m_wndData.classname.data(), m_wndData.hInstance );
+    //        ::DestroyWindow( m_wndData.childHwnd );
+
+    auto it = sm_wndMap.find( m_wndCtx.childHwnd );
+    if ( it != sm_wndMap.end() )
+      sm_wndMap.erase( it );
+    else // something has gone wrong!
+      POLY_ERROR( "unable to properly shut down child HWND because it is not mapped!" );
+
+    // shutdown can get called prior to the destructor, so mark this as invalid
+    m_wndCtx.childHwnd = nullptr;
+  }
+  else
+    POLY_DEBUG( "child window has already been shut down" );
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -90,35 +125,9 @@ sf::Vector2u rj::Win32SfmlWindow::getSize() const
 
 ////////////////////////////////////////////////////////////////////////////
 /* PUBLIC */
-void rj::Win32SfmlWindow::shutdown()
+float rj::Win32SfmlWindow::getFrameRate() const
 {
-  // notify the event receiver that the window will close
-  m_eventReceiver.onShutdown( m_childRenderWindow );
-
-  if ( m_wndCtx.childHwnd != nullptr )
-  {
-    // stop the callbacks
-    if ( m_wndCtx.timerResult != 0 )
-    {
-      ::KillTimer( m_wndCtx.childHwnd, m_wndCtx.timerResult );
-      m_wndCtx.timerResult = 0;
-    }
-
-    // SFML takes care of the following whenever it closes the window
-    //        ::UnregisterClass( m_wndData.classname.data(), m_wndData.hInstance );
-    //        ::DestroyWindow( m_wndData.childHwnd );
-
-    auto it = sm_wndMap.find( m_wndCtx.childHwnd );
-    if ( it != sm_wndMap.end() )
-      sm_wndMap.erase( it );
-    else // something has gone wrong!
-      POLY_ERROR( "unable to properly shut down child HWND because it is not mapped!" );
-
-    // shutdown can get called prior to the destructor, so mark this as invalid
-    m_wndCtx.childHwnd = nullptr;
-  }
-  else
-    POLY_DEBUG( "child window has already been shut down" );
+  return WIN32_FPS;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -271,4 +280,3 @@ LRESULT rj::Win32SfmlWindow::processWndEvent( HWND hwnd,
 {
   return ::DefWindowProc( hwnd, msg, wParam, lParam );
 }
-

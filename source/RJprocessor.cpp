@@ -34,7 +34,8 @@ SfmlDotsProcessor::~SfmlDotsProcessor ()
 tresult PLUGIN_API SfmlDotsProcessor::initialize (FUnknown* context)
 {
 	// Here the Plug-in will be instanciated
-	
+  POLY_INFO( "Processor initializing" );
+
 	//---always initialize the parent-------
 	tresult result = AudioEffect::initialize (context);
 	// if everything Ok, continue
@@ -98,11 +99,17 @@ tresult PLUGIN_API SfmlDotsProcessor::process (Vst::ProcessData& data)
     for ( Steinberg::int32 i = 0; i < data.inputEvents->getEventCount(); ++i )
     {
       Steinberg::Vst::Event event {};
-      if ( data.inputEvents->getEvent( i, event ) != kResultFalse &&
-           event.type == Steinberg::Vst::Event::kNoteOnEvent )
+
+      if ( data.inputEvents->getEvent( i, event ) == kResultFalse )
       {
-        sendMidiNoteEventMessage( event, "midiEvent", "midiOn" );
+        POLY_ERROR( "getEvent failed" );
+        continue;
       }
+
+      if ( event.type == Steinberg::Vst::Event::kNoteOnEvent )
+        sendMidiNoteEventMessage( event, "midiEvent", "midiOn" );
+      else if ( event.type == Steinberg::Vst::Event::kNoteOffEvent )
+        sendMidiNoteEventMessage( event, "midiEvent", "midiOff" );
     }
   }
 
