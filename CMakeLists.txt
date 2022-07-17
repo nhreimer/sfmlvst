@@ -45,6 +45,7 @@ smtg_add_vst3plugin( SfmlDots
 
   # VIZ
   source/ui/view/viz/dots/DotsWindowEventReceiver.cpp
+  source/ui/view/viz/triangles/TrianglesWindowEventReceiver.cpp
 
   # LOGGING
   source/log/PolyLogger.cpp

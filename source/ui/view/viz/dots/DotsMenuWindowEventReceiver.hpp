@@ -4,51 +4,21 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
-#include "source/ui/view/receivers/WindowEventReceiver.hpp"
+#include "source/ui/view/receivers/ImGuiMenuEventReceiver.hpp"
 #include "source/ui/view/viz/dots/DotsData_t.hpp"
-
-#include "source/utils/TimeMeasurement.hpp"
-#include "source/utils/FpsMeasurement.hpp"
 
 namespace rj
 {
-  class DotsMenuWindowEventReceiver : public WindowEventReceiver
+  class DotsMenuWindowEventReceiver : public ImGuiMenuEventReceiver
   {
   public:
     explicit DotsMenuWindowEventReceiver( DotsData_t & data )
       : m_data( data )
     {}
 
-    void onInit( sf::RenderWindow &window ) override
-    {
-      ImGui::SFML::Init( window );
-    }
+  protected:
 
-    void onShutdown( sf::RenderWindow &window ) override
-    {
-      ImGui::SFML::Shutdown( window );
-    }
-
-    void processEvent( sf::RenderWindow &window, const sf::Event &event ) override
-    {
-      ImGui::SFML::ProcessEvent( window, event );
-    }
-
-    void update( sf::RenderWindow &window, const sf::Time &time ) override
-    {
-      ImGui::SFML::Update( window, time );
-      m_fps.addFrame();
-    }
-
-    void draw( sf::RenderWindow &window ) override
-    {
-      drawMenu();
-      ImGui::SFML::Render( window );
-    }
-
-  private:
-
-    void drawMenu()
+    void drawMenu() override
     {
       ImGui::Begin(
       "Dots Menu",
@@ -89,7 +59,7 @@ namespace rj
         }
 
         ImGui::Separator();
-        ImGui::Text( "FPS: %d. (%.2f)", m_fps.getFPS(), m_fps.getDelta() );
+        ImGui::Text( "FPS: %d. (%.2f)", getFPS(), getFPSDelta() );
       }
       ImGui::End();
     }
@@ -97,7 +67,6 @@ namespace rj
   private:
 
     DotsData_t& m_data;
-    FpsMeasurement m_fps;
   };
 }
 

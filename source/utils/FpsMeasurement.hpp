@@ -20,6 +20,13 @@ namespace rj
       ++m_frames;
     }
 
+    void reset()
+    {
+      m_frames = 0;
+      m_delta = 0.0;
+      m_time.reset();
+    }
+
     [[nodiscard]]
     uint32_t getFPS()
     {

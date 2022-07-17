@@ -18,7 +18,7 @@ namespace rj
 
   /***
    * Convenience class that handles some of the things that all the visualization
-   * components need
+   * components need, like centering the view, routing midi on and off events
    */
   class WindowEventReceiver : public IWindowEventReceiver,
                               private Noncopyable

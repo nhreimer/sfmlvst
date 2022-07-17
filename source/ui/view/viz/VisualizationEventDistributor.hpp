@@ -35,6 +35,7 @@ namespace rj
     {
       m_menuEventReceiver.onInit( window );
       m_eventReceiver.onInit( window );
+      m_isInit = true;
     }
 
     void onShutdown( sf::RenderWindow &window ) override
@@ -63,6 +64,9 @@ namespace rj
 
     void update( sf::RenderWindow &window, const sf::Time &time ) override
     {
+      if ( !m_isInit )
+        onInit( window );
+
       m_menuEventReceiver.update( window, time );
       m_eventReceiver.update( window, time );
     }
@@ -108,6 +112,8 @@ namespace rj
     TDATA m_data;
     TVIZ m_eventReceiver;
     TVIZMENU m_menuEventReceiver;
+
+    bool m_isInit { false };
 
   };
 
