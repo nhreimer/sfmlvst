@@ -26,8 +26,6 @@ midi data received from the VST processor.
 
 ---
 
-## building
+## image
 
----
-
-## adding new
+<img src="images/InAction.png" alt="simple dots" title="simple dots"/>

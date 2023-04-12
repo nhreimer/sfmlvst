@@ -54,7 +54,7 @@ namespace rj
 
     virtual void drawMenu() = 0;
     uint32_t getFPS() { return m_fps.getFPS(); }
-    double getFPSDelta() const { return m_fps.getDelta(); }
+    [[nodiscard]] double getFPSDelta() const { return m_fps.getDelta(); }
     void resetFPS() { m_fps.reset(); }
 
   private:
