@@ -33,4 +33,4 @@ midi data received from the VST processor.
 
 ## image
 
-<img src="images/InAction.png" alt="simple dots" title="simple dots"/>
+<img src="images/InAction.PNG" alt="simple dots" title="simple dots"/>
