@@ -3,6 +3,11 @@ VST3 plugin design that uses SFML and ImGui for visualizations. There are severa
 visualization engines that can be selected. The visualizations operate on 
 midi data received from the VST processor.
 
+## This is just a demo showing how to:
+1. integrate SFML + ImGui as a child window
+2. use modern VST3 processor and controller paradigm
+3. show real-time midi visualizations that are extensible and swappable
+
 ---
 
 ## dependencies
